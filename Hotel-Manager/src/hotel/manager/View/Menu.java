@@ -40,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         buttonFinanceiro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu principal");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
@@ -54,9 +55,9 @@ public class Menu extends javax.swing.JFrame {
         buttonQuartos.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonQuartos.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonQuartos.setPreferredSize(new java.awt.Dimension(150, 150));
-        buttonQuartos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonQuartosMouseClicked(evt);
+        buttonQuartos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonQuartosActionPerformed(evt);
             }
         });
 
@@ -64,11 +65,21 @@ public class Menu extends javax.swing.JFrame {
         buttonCheckinCheckout.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonCheckinCheckout.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonCheckinCheckout.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonCheckinCheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCheckinCheckoutActionPerformed(evt);
+            }
+        });
 
         buttonReservas.setText("Reservas");
         buttonReservas.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonReservas.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonReservas.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonReservasActionPerformed(evt);
+            }
+        });
 
         buttonRestaurante.setText("Restaurante");
         buttonRestaurante.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -89,6 +100,11 @@ public class Menu extends javax.swing.JFrame {
         buttonLavanderia.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonLavanderia.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonLavanderia.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonLavanderia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLavanderiaActionPerformed(evt);
+            }
+        });
 
         buttonFinanceiro.setText("Financeiro");
         buttonFinanceiro.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -109,21 +125,19 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(buttonReservas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(buttonQuartos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonCheckinCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(buttonRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonSpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonCheckinCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,16 +148,17 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(buttonRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonQuartos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonReservas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonSpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(buttonRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFinanceiroActionPerformed
@@ -154,11 +169,24 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRestauranteActionPerformed
 
-    private void buttonQuartosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonQuartosMouseClicked
-        RoomController roomController = new RoomController();
-        //roomController.createNewRoom(new Room(5, 20, false, false, true, true));
-        roomController.editRoom(new Room(5, 100, false, false, true, true));
-    }//GEN-LAST:event_buttonQuartosMouseClicked
+    private void buttonLavanderiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLavanderiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonLavanderiaActionPerformed
+
+    private void buttonReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReservasActionPerformed
+        BookingMenu bookingMenu = new BookingMenu();
+        bookingMenu.setVisible(true);
+    }//GEN-LAST:event_buttonReservasActionPerformed
+
+    private void buttonCheckinCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckinCheckoutActionPerformed
+        CheckinCheckoutMenu checkinCheckoutMenu = new CheckinCheckoutMenu();
+        checkinCheckoutMenu.setVisible(true);
+    }//GEN-LAST:event_buttonCheckinCheckoutActionPerformed
+
+    private void buttonQuartosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQuartosActionPerformed
+        RoomMenu roomMenu = new RoomMenu();
+        roomMenu.setVisible(true);
+    }//GEN-LAST:event_buttonQuartosActionPerformed
 
     /**
      * @param args the command line arguments

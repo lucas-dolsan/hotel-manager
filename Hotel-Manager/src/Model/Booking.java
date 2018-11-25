@@ -13,10 +13,50 @@ import java.util.Date;
  * @author Lucas Dolsan
  */
 public class Booking {
+
+    private int code;
+    private boolean archived;
     private Date checkinDate;
     private Date checkoutDate;
     private float cost;
+    private Room room;
     ArrayList<Guest> guests = new ArrayList();
+
+    public Booking(int code, Room room, boolean archived, Date checkinDate, Date checkoutDate, float cost) {
+        this.code = code;
+        this.room = room;
+        this.archived = archived;
+        this.checkinDate = checkinDate;
+        this.checkoutDate = checkoutDate;
+        this.cost = cost;
+    }
+
+    public Booking() {
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     public Date getCheckinDate() {
         return checkinDate;
@@ -52,6 +92,7 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Booking{" + "checkinDate=" + checkinDate + ", checkoutDate=" + checkoutDate + ", cost=" + cost + ", guests=" + guests + '}';
-    }  
+        return "Booking{" + "code=" + code + ", archived=" + archived + ", checkinDate=" + checkinDate + ", checkoutDate=" + checkoutDate + ", cost=" + cost + ", room=" + room + ", guests=" + guests + '}';
+    }
+
 }
