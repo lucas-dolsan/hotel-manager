@@ -1,4 +1,4 @@
-package hotel.manager.Model;
+package Model;
 
 /**
  *
