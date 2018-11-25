@@ -16,6 +16,9 @@ public class Room {
     private boolean hasRoomService;
     ArrayList<Guest> hostedGuests = new ArrayList();
 
+    public Room() {
+    }
+    
     public Room(int number, int amountOfBeds, boolean isBooked, boolean isOccupied, boolean hasBathroom, boolean hasRoomService) {
         this.number = number;
         this.amountOfBeds = amountOfBeds;
@@ -79,7 +82,7 @@ public class Room {
         this.hasBathroom = hasBathroom;
     }
 
-    public boolean isIsBooked() {
+    public boolean isBooked() {
         return isBooked;
     }
 
@@ -87,7 +90,7 @@ public class Room {
         this.isBooked = isBooked;
     }
 
-    public boolean isIsOccupied() {
+    public boolean isOccupied() {
         return isOccupied;
     }
 

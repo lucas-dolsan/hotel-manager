@@ -53,7 +53,5 @@ public class Booking {
     @Override
     public String toString() {
         return "Booking{" + "checkinDate=" + checkinDate + ", checkoutDate=" + checkoutDate + ", cost=" + cost + ", guests=" + guests + '}';
-    }
-    
-    
+    }  
 }

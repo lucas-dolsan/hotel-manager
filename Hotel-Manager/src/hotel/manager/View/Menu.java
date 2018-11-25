@@ -5,6 +5,9 @@
  */
 package hotel.manager.View;
 
+import Control.RoomController;
+import Model.Room;
+
 /**
  *
  * @author 09046138950
@@ -38,9 +41,7 @@ public class Menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
         setSize(new java.awt.Dimension(1280, 720));
 
@@ -53,6 +54,11 @@ public class Menu extends javax.swing.JFrame {
         buttonQuartos.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonQuartos.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonQuartos.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonQuartos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonQuartosMouseClicked(evt);
+            }
+        });
 
         buttonCheckinCheckout.setText("Checkin / Checkout");
         buttonCheckinCheckout.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -147,6 +153,12 @@ public class Menu extends javax.swing.JFrame {
     private void buttonRestauranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRestauranteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonRestauranteActionPerformed
+
+    private void buttonQuartosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonQuartosMouseClicked
+        RoomController roomController = new RoomController();
+        //roomController.createNewRoom(new Room(5, 20, false, false, true, true));
+        roomController.editRoom(new Room(5, 100, false, false, true, true));
+    }//GEN-LAST:event_buttonQuartosMouseClicked
 
     /**
      * @param args the command line arguments
