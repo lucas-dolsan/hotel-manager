@@ -98,7 +98,6 @@ public class GuestController {
                     Guest guest = null;
                     guest.setId(Integer.parseInt(stringifiedGuest[0]));
                     guest.setName(stringifiedGuest[1]);
-                    guest.setAddiotionalBilling(Float.parseFloat(stringifiedGuest[2]));
                     this.guests.add(guest);
                     line = bufferedReader.readLine();
                 }
