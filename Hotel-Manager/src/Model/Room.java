@@ -15,9 +15,9 @@ public class Room {
     private boolean isOccupied;
     private boolean hasBathroom;
     private boolean hasRoomService;
-    ArrayList<Guest> hostedGuests = new ArrayList();
 
     public Room() {
+
     }
 
     public Room(int number, int amountOfBeds, boolean isBooked, boolean isOccupied, boolean hasBathroom, boolean hasRoomService) {
@@ -27,36 +27,6 @@ public class Room {
         this.isOccupied = isOccupied;
         this.hasBathroom = hasBathroom;
         this.hasRoomService = hasRoomService;
-    }
-
-    public void addGuest(Guest guest) {
-        if (this.getAmountOfBeds() < this.getHostedGuests().size()) {
-            this.getHostedGuests().add(guest);
-            setIsOccupied(true);
-        }
-    }
-
-    public void addGuests(ArrayList<Guest> guests) {
-        if (this.getAmountOfBeds() <= this.gethostedGuests().size()) {
-            this.gethostedGuests().addAll(guests);
-            setIsOccupied(true);
-        }
-    }
-
-    public void removeGuests(ArrayList<Guest> guests) {
-        this.gethostedGuests().removeAll(guests);
-    }
-
-    public void RemoveAllGuests() {
-        this.gethostedGuests().removeAll(this.gethostedGuests());
-    }
-
-    public ArrayList<Guest> gethostedGuests() {
-        return hostedGuests;
-    }
-
-    public void removeLastGuest() {
-        this.gethostedGuests().remove(this.gethostedGuests().size() - 1);
     }
 
     public int getNumber() {
@@ -75,7 +45,7 @@ public class Room {
         this.amountOfBeds = amountOfBeds;
     }
 
-    public boolean HasBathroom() {
+    public boolean hasBathroom() {
         return hasBathroom;
     }
 
@@ -99,14 +69,6 @@ public class Room {
         this.isOccupied = isOccupied;
     }
 
-    public ArrayList<Guest> getHostedGuests() {
-        return hostedGuests;
-    }
-
-    public void setHostedGuests(ArrayList<Guest> hostedGuests) {
-        this.hostedGuests = hostedGuests;
-    }
-
     public boolean hasRoomService() {
         return hasRoomService;
     }
@@ -121,7 +83,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room{" + "number=" + number + ", amountOfBeds=" + amountOfBeds + ", isBooked=" + isBooked + ", isOccupied=" + isOccupied + ", hasBathroom=" + hasBathroom + ", hasRoomService=" + hasRoomService + ", hostedGuests=" + hostedGuests + '}';
+        return "Room{" + "number=" + number + ", amountOfBeds=" + amountOfBeds + ", isBooked=" + isBooked + ", isOccupied=" + isOccupied + ", hasBathroom=" + hasBathroom + ", hasRoomService=" + hasRoomService + '}';
     }
 
 }

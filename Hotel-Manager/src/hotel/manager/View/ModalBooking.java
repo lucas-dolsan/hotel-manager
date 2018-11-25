@@ -62,6 +62,7 @@ public class ModalBooking extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agendamento");
+        setAlwaysOnTop(true);
         setMaximumSize(new java.awt.Dimension(600, 600));
         setMinimumSize(new java.awt.Dimension(600, 600));
         setPreferredSize(new java.awt.Dimension(600, 600));
@@ -81,9 +82,6 @@ public class ModalBooking extends javax.swing.JFrame {
 
         guestsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {123, "Marcelinha"},
-                {1, "me chupa"},
-                {23, "sua sapeca"},
             },
             new String [] {
                 "Código", "Nome"

@@ -37,10 +37,9 @@ public class Menu extends javax.swing.JFrame {
         buttonQuartos = new javax.swing.JButton();
         buttonCheckinCheckout = new javax.swing.JButton();
         buttonReservas = new javax.swing.JButton();
-        buttonRestaurante = new javax.swing.JButton();
-        buttonSpa = new javax.swing.JButton();
-        buttonLavanderia = new javax.swing.JButton();
         buttonFinanceiro = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu principal");
@@ -48,12 +47,22 @@ public class Menu extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
         setSize(new java.awt.Dimension(1280, 720));
+        getContentPane().setLayout(null);
 
+        buttonRelatorios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonRelatorios.setText("Relatórios");
         buttonRelatorios.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonRelatorios.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonRelatorios.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRelatoriosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(buttonRelatorios);
+        buttonRelatorios.setBounds(690, 350, 150, 150);
 
+        buttonQuartos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonQuartos.setText("Quartos");
         buttonQuartos.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonQuartos.setMinimumSize(new java.awt.Dimension(150, 150));
@@ -63,8 +72,11 @@ public class Menu extends javax.swing.JFrame {
                 buttonQuartosActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonQuartos);
+        buttonQuartos.setBounds(370, 350, 150, 150);
 
-        buttonCheckinCheckout.setText("Checkin / Checkout");
+        buttonCheckinCheckout.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonCheckinCheckout.setText("Checkin-out");
         buttonCheckinCheckout.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonCheckinCheckout.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonCheckinCheckout.setPreferredSize(new java.awt.Dimension(150, 150));
@@ -73,8 +85,11 @@ public class Menu extends javax.swing.JFrame {
                 buttonCheckinCheckoutActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonCheckinCheckout);
+        buttonCheckinCheckout.setBounds(530, 350, 150, 150);
 
-        buttonReservas.setText("Reservas");
+        buttonReservas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonReservas.setText("Agendamentos");
         buttonReservas.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonReservas.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonReservas.setPreferredSize(new java.awt.Dimension(150, 150));
@@ -83,32 +98,10 @@ public class Menu extends javax.swing.JFrame {
                 buttonReservasActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonReservas);
+        buttonReservas.setBounds(210, 350, 150, 150);
 
-        buttonRestaurante.setText("Restaurante");
-        buttonRestaurante.setMaximumSize(new java.awt.Dimension(150, 150));
-        buttonRestaurante.setMinimumSize(new java.awt.Dimension(150, 150));
-        buttonRestaurante.setPreferredSize(new java.awt.Dimension(150, 150));
-        buttonRestaurante.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRestauranteActionPerformed(evt);
-            }
-        });
-
-        buttonSpa.setText("Spa");
-        buttonSpa.setMaximumSize(new java.awt.Dimension(150, 150));
-        buttonSpa.setMinimumSize(new java.awt.Dimension(150, 150));
-        buttonSpa.setPreferredSize(new java.awt.Dimension(150, 150));
-
-        buttonLavanderia.setText("Lavanderia");
-        buttonLavanderia.setMaximumSize(new java.awt.Dimension(150, 150));
-        buttonLavanderia.setMinimumSize(new java.awt.Dimension(150, 150));
-        buttonLavanderia.setPreferredSize(new java.awt.Dimension(150, 150));
-        buttonLavanderia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonLavanderiaActionPerformed(evt);
-            }
-        });
-
+        buttonFinanceiro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonFinanceiro.setText("Financeiro");
         buttonFinanceiro.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonFinanceiro.setMinimumSize(new java.awt.Dimension(150, 150));
@@ -118,63 +111,28 @@ public class Menu extends javax.swing.JFrame {
                 buttonFinanceiroActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonFinanceiro);
+        buttonFinanceiro.setBounds(850, 350, 150, 150);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(231, 231, 231)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonReservas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonQuartos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonCheckinCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonSpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(236, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCheckinCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRelatorios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonQuartos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonReservas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonSpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRestaurante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonLavanderia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(222, Short.MAX_VALUE))
-        );
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 60)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Hotel Manager");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(300, 100, 680, 130);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/background.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1200, 720);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFinanceiroActionPerformed
-        // TODO add your handling code here:
+        FinantialMenu finantialMenu = new FinantialMenu();
+        finantialMenu.setVisible(true);
     }//GEN-LAST:event_buttonFinanceiroActionPerformed
-
-    private void buttonRestauranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRestauranteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonRestauranteActionPerformed
-
-    private void buttonLavanderiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLavanderiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonLavanderiaActionPerformed
 
     private void buttonReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReservasActionPerformed
         BookingMenu bookingMenu = new BookingMenu();
@@ -190,6 +148,11 @@ public class Menu extends javax.swing.JFrame {
         RoomMenu roomMenu = new RoomMenu();
         roomMenu.setVisible(true);
     }//GEN-LAST:event_buttonQuartosActionPerformed
+
+    private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        ReportMenu reportMenu = new ReportMenu();
+        reportMenu.setVisible(true);
+    }//GEN-LAST:event_buttonRelatoriosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,11 +192,10 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCheckinCheckout;
     private javax.swing.JButton buttonFinanceiro;
-    private javax.swing.JButton buttonLavanderia;
     private javax.swing.JButton buttonQuartos;
     private javax.swing.JButton buttonRelatorios;
     private javax.swing.JButton buttonReservas;
-    private javax.swing.JButton buttonRestaurante;
-    private javax.swing.JButton buttonSpa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

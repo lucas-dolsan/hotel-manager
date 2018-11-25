@@ -14,6 +14,7 @@ public class Booking {
     private Date checkinDate;
     private Date checkoutDate;
     private float cost;
+    private float additionalCost;
     private Room room;
     ArrayList<Guest> guests = new ArrayList();
 
@@ -35,6 +36,14 @@ public class Booking {
 
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    public float getAdditionalCost() {
+        return additionalCost;
+    }
+
+    public void setAdditionalCost(float additionalCost) {
+        this.additionalCost = additionalCost;
     }
 
     public int getCode() {
