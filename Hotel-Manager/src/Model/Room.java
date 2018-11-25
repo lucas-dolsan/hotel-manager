@@ -1,4 +1,5 @@
 package Model;
+
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class Room {
 
     public Room() {
     }
-    
+
     public Room(int number, int amountOfBeds, boolean isBooked, boolean isOccupied, boolean hasBathroom, boolean hasRoomService) {
         this.number = number;
         this.amountOfBeds = amountOfBeds;
@@ -27,7 +28,7 @@ public class Room {
         this.hasBathroom = hasBathroom;
         this.hasRoomService = hasRoomService;
     }
-    
+
     public void addGuest(Guest guest) {
         if (this.getAmountOfBeds() < this.getHostedGuests().size()) {
             this.getHostedGuests().add(guest);
@@ -112,6 +113,10 @@ public class Room {
 
     public void setHasRoomService(boolean hasRoomService) {
         this.hasRoomService = hasRoomService;
+    }
+
+    public String toFileString() {
+        return this.number + ";" + this.amountOfBeds + ";" + this.isBooked + ";" + this.isOccupied + ";" + this.hasBathroom + ";" + this.hasRoomService;
     }
 
     @Override

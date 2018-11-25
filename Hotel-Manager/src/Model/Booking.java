@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import java.util.ArrayList;
@@ -88,6 +83,23 @@ public class Booking {
 
     public void setGuests(ArrayList<Guest> guests) {
         this.guests = guests;
+    }
+
+    public void addGuest(Guest guest) {
+        this.guests.add(guest);
+    }
+
+    public String toFileString() {
+        String line = this.code + ";"
+                + this.room.getNumber() + ";"
+                + this.checkinDate + ";"
+                + this.checkoutDate + ";"
+                + this.cost + ";";
+        line = line + this.guests.size() + ";";
+        for (Guest guest : this.guests) {
+            line = line + guest.getId() + ";";
+        }
+        return line;
     }
 
     @Override

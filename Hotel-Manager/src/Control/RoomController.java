@@ -6,14 +6,12 @@
 package Control;
 
 import Model.Room;
-import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.nio.file.Files.list;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -81,7 +79,7 @@ public class RoomController {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             for (Room room : this.rooms) {
-                bufferedWriter.write(new Gson().toJson(room));
+                bufferedWriter.write(room.toFileString());
                 bufferedWriter.newLine();
             }
 
@@ -104,7 +102,17 @@ public class RoomController {
                 String line = bufferedReader.readLine();
 
                 while (line != null) {
-                    this.rooms.add(new Gson().fromJson(line, Room.class));
+                    String[] StringifiedRoom = line.split(";");
+                    Room room = new Room();
+
+                    room.setNumber(Integer.parseInt(StringifiedRoom[0]));
+                    room.setAmountOfBeds(Integer.parseInt(StringifiedRoom[1]));
+                    room.setIsBooked(Boolean.parseBoolean(StringifiedRoom[2]));
+                    room.setIsOccupied(Boolean.parseBoolean(StringifiedRoom[3]));
+                    room.setHasBathroom(Boolean.parseBoolean(StringifiedRoom[4]));
+                    room.setHasRoomService(Boolean.parseBoolean(StringifiedRoom[5]));
+
+                    this.rooms.add(room);
                     line = bufferedReader.readLine();
                 }
 
@@ -146,7 +154,6 @@ public class RoomController {
 
         for (int i = 0; i < this.rooms.size(); i++) {
             if (this.rooms.get(i).getNumber() == editedRoom.getNumber()) {
-                Room oldRoom = this.rooms.get(i);
                 this.rooms.set(i, editedRoom);
                 saveRoomsToFile();
                 String message = "Quarto editado com sucesso!";

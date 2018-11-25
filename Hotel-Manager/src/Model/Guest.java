@@ -22,4 +22,18 @@ public class Guest extends Person {
         }
     }
 
+    public Guest(float addiotionalBilling, int id, String name) {
+        super(id, name);
+        this.addiotionalBilling = addiotionalBilling;
+    }
+
+    public String toFileString() {
+        return this.getId() + ";" + this.getName() + ";" + this.addiotionalBilling;
+    }
+
+    @Override
+    public String toString() {
+        return "Guest{" + "addiotionalBilling=" + addiotionalBilling + '}';
+    }
+
 }

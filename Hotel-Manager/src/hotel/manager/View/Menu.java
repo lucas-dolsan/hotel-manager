@@ -5,8 +5,11 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
 import Control.RoomController;
+import Model.Booking;
 import Model.Room;
+import java.util.Date;
 
 /**
  *
