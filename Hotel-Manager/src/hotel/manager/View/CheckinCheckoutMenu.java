@@ -167,7 +167,7 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
             Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingTextInput.getText()));
             if (booking.getCheckinDate().equals("null")) {
                 booking.setCheckinDate(new Date().toString());
-                bookingController.editBooking(booking);
+                bookingController.editBooking(booking, booking.getCode());
             }
         }
         reloadTable();

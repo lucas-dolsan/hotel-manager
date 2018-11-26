@@ -25,13 +25,13 @@ public class ModalBooking extends javax.swing.JFrame {
      * Creates new form ModalBooking
      */
     private Booking booking = new Booking();
-    
+
     public ModalBooking() {
         initComponents();
         this.buttonDelete.setEnabled(false);
         this.buttonEdit.setEnabled(false);
     }
-    
+
     public ModalBooking(Booking booking) {
         initComponents();
         this.booking = booking;
@@ -248,7 +248,7 @@ public class ModalBooking extends javax.swing.JFrame {
         DefaultTableModel tabela = (DefaultTableModel) guestsTable.getModel();
         GuestController guestController = new GuestController();
         Guest guest = guestController.findGuestByName(String.valueOf(this.guestPicker.getSelectedItem()));
-        
+
         boolean canAdd = true;
         for (int i = 0; i < tabela.getRowCount(); i++) {
             int code = (int) tabela.getValueAt(i, 0);
@@ -256,7 +256,7 @@ public class ModalBooking extends javax.swing.JFrame {
                 canAdd = false;
             }
         }
-        
+
         if (canAdd) {
             tabela.addRow(new Object[]{
                 guest.getId(), guest.getName()
@@ -283,19 +283,19 @@ public class ModalBooking extends javax.swing.JFrame {
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         BookingController bookingController = new BookingController();
         RoomController roomController = new RoomController();
-        
+
         ArrayList<Booking> bookings = bookingController.getAllBookings();
         if (bookings.size() > 0) {
             Booking lastBooking = bookings.get(bookings.size() - 1);
             int newBookingCode = lastBooking.getCode() + 1;
-            
+
             Room room = roomController.findRoomByNumber(Integer.parseInt(String.valueOf(this.roomPicker.getSelectedItem())));
-            
+
             boolean doCheckin = false;
             if (this.radioButtonCheckinAuto.isSelected()) {
                 doCheckin = true;
             }
-            
+
             if (doCheckin) {
                 Booking booking = new Booking(newBookingCode, room, false, new Date().toString(), null, Float.parseFloat(this.costInputText.getText()));
                 bookingController.createNewBooking(booking);
@@ -305,7 +305,7 @@ public class ModalBooking extends javax.swing.JFrame {
             }
         } else {
             Room room = roomController.findRoomByNumber(Integer.parseInt(String.valueOf(this.roomPicker.getSelectedItem())));
-            
+
             boolean doCheckin = false;
             if (this.radioButtonCheckinAuto.isSelected()) {
                 doCheckin = true;
@@ -318,7 +318,7 @@ public class ModalBooking extends javax.swing.JFrame {
                 bookingController.createNewBooking(booking);
             }
         }
-        
+
         this.dispose();
     }//GEN-LAST:event_buttonSaveActionPerformed
 
@@ -329,9 +329,15 @@ public class ModalBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
-        // TODO add your handling code here:
+        BookingController bookingController = new BookingController();
+
+        Booking booking = bookingController.findBookingByCode(this.booking.getCode());
+        booking.setCode(Integer.parseInt(String.valueOf(this.roomPicker.getSelectedItem())));
+        booking.setCost(Float.parseFloat(this.costInputText.getText()));
+
+        bookingController.editBooking(booking, this.booking.getCode());
     }//GEN-LAST:event_buttonEditActionPerformed
-    
+
     private void reloadPickerRooms() {
         RoomController roomController = new RoomController();
         ArrayList<Room> rooms = roomController.getAllRooms();
@@ -344,7 +350,7 @@ public class ModalBooking extends javax.swing.JFrame {
             roomPicker.addItem(String.valueOf(room.getNumber()));
         }
     }
-    
+
     private void reloadPickerGuests() {
         GuestController guestController = new GuestController();
         ArrayList<Guest> guests = guestController.getAllGuests();

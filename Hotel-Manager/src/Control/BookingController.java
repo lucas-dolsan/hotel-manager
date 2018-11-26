@@ -54,7 +54,7 @@ public class BookingController {
         readBookingsFromFile();
         try {
             if (bookingExistsInFile(booking.getCode())) {
-                String message = "Já existe um agendamento com esse número cadastrado!";
+                String message = "Já existe um booking com esse número cadastrado!";
                 System.out.println(message);
                 return message;
             }
@@ -221,11 +221,11 @@ public class BookingController {
         return "Ocorreu um erro inesperado!";
     }
 
-    public String editBooking(Booking editedBooking) {
+    public String editBooking(Booking editedBooking, int oldId) {
         readBookingsFromFile();
 
         for (int i = 0; i < this.bookings.size(); i++) {
-            if (this.bookings.get(i).getCode() == editedBooking.getCode()) {
+            if (this.bookings.get(i).getCode() == oldId) {
                 this.bookings.remove(i);
                 this.bookings.add(editedBooking);
 

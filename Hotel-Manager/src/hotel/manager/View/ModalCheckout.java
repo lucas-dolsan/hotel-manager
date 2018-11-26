@@ -228,7 +228,7 @@ public class ModalCheckout extends javax.swing.JFrame {
             if (!booking.isArchived()) {
                 booking.setCheckoutDate(new Date().toString());
                 booking.setArchived(true);
-                bookingController.editBooking(booking);
+                bookingController.editBooking(booking, booking.getCode());
 
                 ArrayList<Transfer> transfers = transferController.getAllTransfers();
                 if (transfers.size() > 0) {
