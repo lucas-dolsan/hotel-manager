@@ -5,8 +5,15 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
+import Control.GuestController;
+import Control.RoomController;
 import Model.Booking;
 import Model.Guest;
+import Model.Room;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,16 +25,18 @@ public class ModalBooking extends javax.swing.JFrame {
      * Creates new form ModalBooking
      */
     private Booking booking = new Booking();
-
+    
     public ModalBooking() {
         initComponents();
         this.buttonDelete.setEnabled(false);
+        this.buttonEdit.setEnabled(false);
     }
-
+    
     public ModalBooking(Booking booking) {
         initComponents();
         this.booking = booking;
         radioButtonCheckinAuto.setEnabled(false);
+        this.buttonSave.setEnabled(false);
         this.costInputText.setText(String.valueOf(booking.getCost()));
         this.roomPicker.addItem(String.valueOf(booking.getRoom().getNumber()));
     }
@@ -60,6 +69,7 @@ public class ModalBooking extends javax.swing.JFrame {
         buttonRegisterGuest = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        buttonEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agendamento");
@@ -67,6 +77,11 @@ public class ModalBooking extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(600, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(600, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         roomPicker.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -75,9 +90,19 @@ public class ModalBooking extends javax.swing.JFrame {
 
         buttonSave.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonSave.setText("Salvar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         buttonDelete.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonDelete.setText("Excluir");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         guestsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,6 +122,7 @@ public class ModalBooking extends javax.swing.JFrame {
         jLabel2.setText("Custo inicial:");
 
         costInputText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        costInputText.setText("0");
 
         buttonAddGuest.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonAddGuest.setText("Adicionar hóspede");
@@ -129,45 +155,56 @@ public class ModalBooking extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Agendamento");
 
+        buttonEdit.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonEdit.setText("Editar");
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonRegisterGuest)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonRegisterGuest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(guestPicker, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(buttonAddGuest)))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(radioButtonCheckinAuto)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(roomPicker, 0, 373, Short.MAX_VALUE)
-                                        .addComponent(costInputText)))))))
-                .addGap(28, 28, 28))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(guestPicker, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(buttonAddGuest)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(radioButtonCheckinAuto)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(roomPicker, 0, 373, Short.MAX_VALUE)
+                                                .addComponent(costInputText)))))))
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,15 +226,16 @@ public class ModalBooking extends javax.swing.JFrame {
                     .addComponent(buttonAddGuest)
                     .addComponent(guestPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
-                    .addComponent(buttonDelete)
-                    .addComponent(buttonRegisterGuest))
+                    .addComponent(buttonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonRegisterGuest)
+                    .addComponent(buttonEdit))
                 .addContainerGap())
         );
 
@@ -206,7 +244,23 @@ public class ModalBooking extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddGuestActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel tabela = (DefaultTableModel) guestsTable.getModel();
+        GuestController guestController = new GuestController();
+        Guest guest = guestController.findGuestByName(String.valueOf(this.guestPicker.getSelectedItem()));
+        
+        boolean canAdd = true;
+        for (int i = 0; i < tabela.getRowCount(); i++) {
+            int code = (int) tabela.getValueAt(i, 0);
+            if (code == guest.getId()) {
+                canAdd = false;
+            }
+        }
+        
+        if (canAdd) {
+            tabela.addRow(new Object[]{
+                guest.getId(), guest.getName()
+            });
+        }
     }//GEN-LAST:event_buttonAddGuestActionPerformed
 
     private void buttonRegisterGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterGuestActionPerformed
@@ -215,15 +269,98 @@ public class ModalBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRegisterGuestActionPerformed
 
     private void guestsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guestsTableMouseClicked
-        //  Guest guest = new Guest((int) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 0), (String) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 1));
-        // modalGuest = new ModalGuest(guest);
-        //modalGuest.setVisible(true);
+//        Guest guest = new Guest((int) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 0), (String) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 1));;
+//        ModalGuest modalGuest = new ModalGuest(guest);
+//        modalGuest.setVisible(true);
     }//GEN-LAST:event_guestsTableMouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        reloadPickerGuests();
+        reloadPickerRooms();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        BookingController bookingController = new BookingController();
+        RoomController roomController = new RoomController();
+        
+        ArrayList<Booking> bookings = bookingController.getAllBookings();
+        if (bookings.size() > 0) {
+            Booking lastBooking = bookings.get(bookings.size() - 1);
+            int newBookingCode = lastBooking.getCode() + 1;
+            
+            Room room = roomController.findRoomByNumber(Integer.parseInt(String.valueOf(this.roomPicker.getSelectedItem())));
+            
+            boolean doCheckin = false;
+            if (this.radioButtonCheckinAuto.isSelected()) {
+                doCheckin = true;
+            }
+            
+            if (doCheckin) {
+                Booking booking = new Booking(newBookingCode, room, false, new Date().toString(), null, Float.parseFloat(this.costInputText.getText()));
+                bookingController.createNewBooking(booking);
+            } else {
+                Booking booking = new Booking(newBookingCode, room, false, null, null, Float.parseFloat(this.costInputText.getText()));
+                bookingController.createNewBooking(booking);
+            }
+        } else {
+            Room room = roomController.findRoomByNumber(Integer.parseInt(String.valueOf(this.roomPicker.getSelectedItem())));
+            
+            boolean doCheckin = false;
+            if (this.radioButtonCheckinAuto.isSelected()) {
+                doCheckin = true;
+            }
+            if (doCheckin) {
+                Booking booking = new Booking(1, room, false, new Date().toString(), null, Float.parseFloat(this.costInputText.getText()));
+                bookingController.createNewBooking(booking);
+            } else {
+                Booking booking = new Booking(1, room, false, null, null, Float.parseFloat(this.costInputText.getText()));
+                bookingController.createNewBooking(booking);
+            }
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        BookingController bookingController = new BookingController();
+        bookingController.deleteBookingFromFile(this.booking.getCode());
+        this.dispose();
+    }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonEditActionPerformed
+    
+    private void reloadPickerRooms() {
+        RoomController roomController = new RoomController();
+        ArrayList<Room> rooms = roomController.getAllRooms();
+
+        //Limpeza das linhas do picker
+        roomPicker.removeAllItems();
+
+        //Repopulando picker
+        for (Room room : rooms) {
+            roomPicker.addItem(String.valueOf(room.getNumber()));
+        }
+    }
+    
+    private void reloadPickerGuests() {
+        GuestController guestController = new GuestController();
+        ArrayList<Guest> guests = guestController.getAllGuests();
+
+        //Limpeza das linhas do picker
+        guestPicker.removeAllItems();
+
+        //Repopulando picker
+        for (Guest guest : guests) {
+            guestPicker.addItem(guest.getName());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddGuest;
     private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonEdit;
     private javax.swing.JButton buttonRegisterGuest;
     private javax.swing.JButton buttonSave;
     private javax.swing.JTextField costInputText;

@@ -5,10 +5,11 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
 import Model.Booking;
 import Model.Room;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 
 /**
@@ -55,13 +56,14 @@ public class BookingMenu extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(900, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(900, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {12154, 12,  new Date(), 4},
-                {123, 1,  new Date(), 4},
-                {122, 1,  new Date(), 1},
-                {11, 2,  new Date(), 1}
             },
             new String [] {
                 "Código", "Quarto", "Data Checkin", "Nº de Pessoas"
@@ -127,10 +129,11 @@ public class BookingMenu extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonSearch)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(selectedTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buttonSearch)
+                        .addComponent(selectedTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -143,13 +146,18 @@ public class BookingMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
-        //pegar id do agendamento
-        String idBooking = selectedTextInput.getText();
+        if (Integer.parseInt(selectedTextInput.getText()) >= 0) {
+            BookingController bookingController = new BookingController();
 
-        //buscar dados do agendamento aqui e enviar para o modal de visualização
-        Booking booking = new Booking(123, new Room(), false, new Date(), new Date(), 1542);
-        ModalBooking modalBooking = new ModalBooking(booking);
-        modalBooking.setVisible(true);
+            //pegar id do agendamento
+            int idBooking = Integer.parseInt(selectedTextInput.getText());
+
+            //buscar dados do agendamento aqui e enviar para o modal de visualização
+            Booking booking = bookingController.findBookingByCode(idBooking);
+            ModalBooking modalBooking = new ModalBooking(booking);
+            modalBooking.setVisible(true);
+        }
+        this.selectedTextInput.setText("");
     }//GEN-LAST:event_buttonSearchActionPerformed
 
     private void buttonNewBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewBookingActionPerformed
@@ -164,6 +172,27 @@ public class BookingMenu extends javax.swing.JFrame {
         this.selectedTextInput.setText(bookingTable.getValueAt(row, 0).toString());
     }//GEN-LAST:event_bookingTableMouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        reloadTable();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void reloadTable() {
+        BookingController bookingController = new BookingController();
+        ArrayList<Booking> bookings = bookingController.getAllBookings();
+        DefaultTableModel tabela = (DefaultTableModel) bookingTable.getModel();
+
+        //Limpeza das linhas da tabela
+        while (tabela.getRowCount() > 0) {
+            tabela.removeRow(0);
+        }
+
+        //Repopulando tabela
+        for (Booking booking : bookings) {
+            tabela.addRow(new Object[]{
+                booking.getCode(), booking.getRoom().getNumber(), booking.getCheckinDate(), booking.getGuests().size()
+            });
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bookingTable;

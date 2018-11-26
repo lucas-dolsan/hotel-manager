@@ -8,17 +8,13 @@ package Control;
 import Model.Booking;
 import Model.BookingGuest;
 import Model.Guest;
-import Model.Room;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -34,7 +30,7 @@ public class BookingController {
     ArrayList<BookingGuest> bookingGuests = new ArrayList<>();
 
     public Booking findBookingByCode(int code) {
-        //readRoomsFromFile();
+        readBookingsFromFile();
         Booking booking = new Booking();
 
         for (Booking bookingIteration : this.bookings) {
@@ -85,9 +81,11 @@ public class BookingController {
         try {
             FileWriter fileWriter = new FileWriter(new File(FILE_PATH));
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            
+            bufferedWriter.write("");
+            
             for (Booking booking : this.bookings) {
                 bufferedWriter.write(booking.toFileString());
-                System.out.println(booking.toString());
                 saveGuestsToBooking(booking);
                 bufferedWriter.newLine();
             }
@@ -144,7 +142,7 @@ public class BookingController {
 
                     Booking booking = findBookingByCode(Integer.parseInt(stringifiedBookingGuest[1]));
                     Guest guest = new GuestController().findGuestByID(Integer.parseInt(stringifiedBookingGuest[0]));
-                    if(guest.getId() == 0){
+                    if (guest.getId() == 0) {
                         return false;
                     }
                     bookingGuest.setBooking(booking);
@@ -171,6 +169,7 @@ public class BookingController {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 String line = bufferedReader.readLine();
 
+                this.bookings.clear();
                 while (line != null) {
 
                     String[] stringifiedBooking = line.split(";");
@@ -222,13 +221,14 @@ public class BookingController {
         return "Ocorreu um erro inesperado!";
     }
 
-    public String editRoom(Booking editedBooking) {
+    public String editBooking(Booking editedBooking) {
         readBookingsFromFile();
 
         for (int i = 0; i < this.bookings.size(); i++) {
             if (this.bookings.get(i).getCode() == editedBooking.getCode()) {
+                this.bookings.remove(i);
+                this.bookings.add(editedBooking);
 
-                this.bookings.set(i, editedBooking);
                 saveBookingsToFile();
                 String message = "Agendamento editado com sucesso!";
                 System.out.println(message);

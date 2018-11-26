@@ -27,6 +27,17 @@ public class GuestController {
         return guest;
     }
 
+    public Guest findGuestByName(String name) {
+        readGuestsFromFile();
+        Guest guest = new Guest(0, "Guest Não Encontrado");
+        for (Guest guestIteration : this.guests) {
+            if (guestIteration.getName().equals(name)) {
+                return guestIteration;
+            }
+        }
+        return guest;
+    }
+
     public boolean guestExistsInFile(int id) {
         readGuestsFromFile();
         for (Guest guest : this.guests) {

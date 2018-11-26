@@ -5,6 +5,12 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
+import Model.Booking;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author 09046138950
@@ -43,16 +49,16 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
         setTitle("Gerenciar checkin e checkout");
         setMaximumSize(new java.awt.Dimension(900, 720));
         setMinimumSize(new java.awt.Dimension(900, 720));
-        setPreferredSize(new java.awt.Dimension(900, 720));
         setResizable(false);
         setSize(new java.awt.Dimension(900, 720));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         bookingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Código", "Arquivado", "Data do checkin", "Data do checkout"
@@ -77,6 +83,11 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
 
         buttonCheckin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonCheckin.setText("Efetuar checkin");
+        buttonCheckin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCheckinActionPerformed(evt);
+            }
+        });
 
         buttonCheckout.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonCheckout.setText("Efetuar checkout");
@@ -116,16 +127,13 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(buttonCheckin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(buttonCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(bookingTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonCheckin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bookingTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -137,7 +145,7 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
     private void bookingTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookingTableMouseClicked
         //Aqui o sistema irá pegar o código da linha que o usuário clicou e passar para o text input
         int row = bookingTable.rowAtPoint(evt.getPoint());
-        this.bookingTextInput.setText((String) bookingTable.getValueAt(row, 1));
+        this.bookingTextInput.setText(String.valueOf(bookingTable.getValueAt(row, 0)));
     }//GEN-LAST:event_bookingTableMouseClicked
 
     private void buttonCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckoutActionPerformed
@@ -146,6 +154,40 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
         modalCheckout.setVisible(true);
     }//GEN-LAST:event_buttonCheckoutActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        reloadTable();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void buttonCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckinActionPerformed
+        BookingController bookingController = new BookingController();
+        if (Integer.parseInt(this.bookingTextInput.getText()) >= 0) {
+            Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingTextInput.getText()));
+            if (booking.getCheckinDate() == null) {
+                booking.setCheckinDate(new Date().toString());
+                bookingController.editBooking(booking);
+            }
+        }
+        reloadTable();
+    }//GEN-LAST:event_buttonCheckinActionPerformed
+
+    private void reloadTable() {
+        //"Código", "Arquivado", "Data do checkin", "Data do checkout"
+        BookingController bookingController = new BookingController();
+        ArrayList<Booking> bookings = bookingController.getAllBookings();
+        DefaultTableModel tabela = (DefaultTableModel) bookingTable.getModel();
+
+        //Limpeza das linhas da tabela
+        while (tabela.getRowCount() > 0) {
+            tabela.removeRow(0);
+        }
+
+        //Repopulando tabela
+        for (Booking booking : bookings) {
+            tabela.addRow(new Object[]{
+                booking.getCode(), booking.isArchived(), booking.getCheckinDate(), booking.getCheckoutDate()
+            });
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bookingTable;

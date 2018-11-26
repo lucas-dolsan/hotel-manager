@@ -5,6 +5,7 @@
  */
 package hotel.manager.View;
 
+import Control.GuestController;
 import Model.Guest;
 
 /**
@@ -17,15 +18,14 @@ public class ModalGuest extends javax.swing.JFrame {
      * Creates new form ModalRegisterGuest
      */
     //private Guest guest = new Guest(0, "");
-    
     public ModalGuest() {
         initComponents();
         this.buttonDelete.setEnabled(false);
     }
-    
+
     public ModalGuest(Guest guest) {
         initComponents();
-     //  this.guest = guest;
+        //  this.guest = guest;
         this.nameTextInput.setText(String.valueOf(guest.getName()));
         this.codeTextInput.setText(String.valueOf(guest.getId()));
         this.buttonSave.setEnabled(false);
@@ -69,9 +69,19 @@ public class ModalGuest extends javax.swing.JFrame {
 
         buttonSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonSave.setText("Salvar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         buttonDelete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonDelete.setText("Excluir");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,6 +128,17 @@ public class ModalGuest extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        GuestController guestController = new GuestController();
+        Guest guest = new Guest(Integer.valueOf(this.codeTextInput.getText()), this.nameTextInput.getText());
+        guestController.createNewGuest(guest);
+        this.dispose();
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
