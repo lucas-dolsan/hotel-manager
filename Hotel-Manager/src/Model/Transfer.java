@@ -32,8 +32,6 @@ public class Transfer {
         this.date = date;
         this.typeIn = typeIn;
     }
-    
-    
 
     public boolean isTypeIn() {
         return typeIn;
@@ -75,4 +73,7 @@ public class Transfer {
         this.date = date;
     }
 
+    public String toFileString() {
+        return this.getCode() + ";" + this.getDate() + ";" + this.getDescription() + ";" + this.isTypeIn() + ";" + this.getValue();
+    }
 }

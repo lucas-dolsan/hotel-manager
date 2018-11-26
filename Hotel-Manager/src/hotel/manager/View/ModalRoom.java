@@ -5,6 +5,7 @@
  */
 package hotel.manager.View;
 
+import Control.RoomController;
 import Model.Room;
 
 /**
@@ -16,15 +17,18 @@ public class ModalRoom extends javax.swing.JFrame {
     /**
      * Creates new form ModalRoom
      */
+    Room room = new Room();
+
     public ModalRoom() {
         initComponents();
         this.buttonDelete.setEnabled(false);
+        this.buttonEdit.setEnabled(false);
     }
-    
+
     public ModalRoom(Room room) {
         initComponents();
-        this.hasBathRoomRadioButton.setEnabled(false);
-        this.hasRoomServiceRadioButton.setEnabled(false);
+        this.room = room;
+        this.buttonSave.setEnabled(false);
         this.roomNumberTextInput.setText(String.valueOf(room.getNumber()));
         this.bedsNumberTextInput.setText(String.valueOf(room.getAmountOfBeds()));
         if (room.hasRoomService()) {
@@ -33,7 +37,6 @@ public class ModalRoom extends javax.swing.JFrame {
         if (room.hasBathroom()) {
             this.hasBathRoomRadioButton.setSelected(true);
         }
-        
     }
 
     /**
@@ -61,29 +64,29 @@ public class ModalRoom extends javax.swing.JFrame {
         buttonDelete = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        buttonEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar quarto");
         setAlwaysOnTop(true);
         setMaximumSize(new java.awt.Dimension(600, 600));
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 600));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Número do quarto:");
 
         roomNumberTextInput.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        roomNumberTextInput.setText("0");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Número de camas:");
 
         bedsNumberTextInput.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        bedsNumberTextInput.setText("0");
 
         guestTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, },
-                {null, null,},
-                {null, null, },
-                {null, null, }
             },
             new String [] {
                 "Código", "Nome"
@@ -99,9 +102,19 @@ public class ModalRoom extends javax.swing.JFrame {
 
         buttonSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonSave.setText("Salvar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         buttonDelete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonDelete.setText("Excluir");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -109,6 +122,14 @@ public class ModalRoom extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Hóspedes no quarto no momento");
+
+        buttonEdit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        buttonEdit.setText("Editar");
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,7 +156,9 @@ public class ModalRoom extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -171,18 +194,83 @@ public class ModalRoom extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
-                    .addComponent(buttonDelete))
+                    .addComponent(buttonDelete)
+                    .addComponent(buttonEdit))
                 .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
+    //criação de quarto
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        int number = Integer.parseInt(this.roomNumberTextInput.getText());
+        int beds = Integer.parseInt(this.bedsNumberTextInput.getText());
+        
+        //verificando integridade dos inputs se são válidos
+        if (number > 0 && beds > 0) {
+            boolean hasBathroom = false;
+            if (this.hasBathRoomRadioButton.isSelected()) {
+                hasBathroom = true;
+            }
+            boolean hasRoomService = false;
+            if (this.hasRoomServiceRadioButton.isSelected()) {
+                hasRoomService = true;
+            }
+            
+            //criando quarto e inserindo no arquivo
+            Room room = new Room(number, beds, false, false, hasBathroom, hasRoomService);
+
+            try {
+                RoomController roomController = new RoomController();
+                roomController.createNewRoom(room);
+                this.dispose();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_buttonSaveActionPerformed
+    
+    //edição de quarto
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        RoomController roomController = new RoomController();
+        
+        //pegando quarto selecionado do arquivo e editando seus atributos
+        Room room = roomController.findRoomByNumber(Integer.parseInt(this.roomNumberTextInput.getText()));
+        room.setAmountOfBeds(Integer.parseInt(this.bedsNumberTextInput.getText()));
+        room.setNumber(Integer.parseInt(this.roomNumberTextInput.getText()));
+        if (this.hasBathRoomRadioButton.isSelected()) {
+            room.setHasBathroom(true);
+        } else {
+            room.setHasBathroom(false);
+        }
+
+        if (this.hasRoomServiceRadioButton.isSelected()) {
+            room.setHasRoomService(true);
+        } else {
+            room.setHasRoomService(false);
+        }
+        
+        //chamando método para editar quarto no arquivo
+        roomController.editRoom(room, this.room.getNumber());
+        this.dispose();
+    }//GEN-LAST:event_buttonEditActionPerformed
+    
+    //exclusão de quarto
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        RoomController roomController = new RoomController();
+        
+        //chamando método para deletar quarto partindo do id selecionado
+        roomController.deleteRoomFromFile(this.room.getNumber());
+        this.dispose();
+    }//GEN-LAST:event_buttonDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bedsNumberTextInput;
     private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonEdit;
     private javax.swing.JButton buttonSave;
     private javax.swing.JTable guestTable;
     private javax.swing.JRadioButton hasBathRoomRadioButton;

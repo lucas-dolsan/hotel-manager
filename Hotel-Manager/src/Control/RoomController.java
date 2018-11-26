@@ -28,7 +28,6 @@ public class RoomController {
         readRoomsFromFile();
         Room room = new Room();
         for (Room roomIteration : this.rooms) {
-            System.out.println(roomIteration);
             if (roomIteration.getNumber() == roomNumber) {
                 return roomIteration;
             }
@@ -78,6 +77,8 @@ public class RoomController {
             FileWriter fileWriter = new FileWriter(new File(FILE_PATH));
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
+            bufferedWriter.write("");
+
             for (Room room : this.rooms) {
                 bufferedWriter.write(room.toFileString());
                 bufferedWriter.newLine();
@@ -93,7 +94,8 @@ public class RoomController {
             return false;
         }
     }
-
+   
+    
     private boolean readRoomsFromFile() {
         File file = new File(FILE_PATH);
         try {
@@ -101,7 +103,9 @@ public class RoomController {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 String line = bufferedReader.readLine();
 
+                rooms.clear();
                 while (line != null) {
+
                     String[] StringifiedRoom = line.split(";");
                     Room room = new Room();
 
@@ -149,12 +153,13 @@ public class RoomController {
         return "Ocorreu um erro inesperado!";
     }
 
-    public String editRoom(Room editedRoom) {
+    public String editRoom(Room editedRoom, int oldId) {
         readRoomsFromFile();
 
         for (int i = 0; i < this.rooms.size(); i++) {
-            if (this.rooms.get(i).getNumber() == editedRoom.getNumber()) {
-                this.rooms.set(i, editedRoom);
+            if (this.rooms.get(i).getNumber() == oldId) {
+                this.rooms.remove(i);
+                this.rooms.add(editedRoom);
                 saveRoomsToFile();
                 String message = "Quarto editado com sucesso!";
                 System.out.println(message);

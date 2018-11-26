@@ -16,6 +16,8 @@ public class ReportMenu extends javax.swing.JFrame {
      */
     public ReportMenu() {
         initComponents();
+        
+        //set em todos os indicadores da tela
         this.allBookingsLabel.setText("");
         this.allCheckinsLabel.setText("");
         this.allCheckoutsLabel.setText("");
@@ -50,10 +52,9 @@ public class ReportMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório");
         setAlwaysOnTop(true);
-        setMaximumSize(new java.awt.Dimension(700, 700));
-        setMinimumSize(new java.awt.Dimension(700, 700));
-        setPreferredSize(new java.awt.Dimension(700, 700));
-        setSize(new java.awt.Dimension(700, 700));
+        setMaximumSize(new java.awt.Dimension(700, 350));
+        setMinimumSize(new java.awt.Dimension(700, 350));
+        setSize(new java.awt.Dimension(700, 350));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -158,7 +159,7 @@ public class ReportMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(onGoingBookingsLabel)
                     .addComponent(finishedBookingsLabel))
-                .addContainerGap(455, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         pack();

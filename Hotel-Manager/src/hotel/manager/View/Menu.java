@@ -44,9 +44,10 @@ public class Menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu principal");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setMaximumSize(new java.awt.Dimension(1200, 720));
+        setMinimumSize(new java.awt.Dimension(1200, 720));
         setResizable(false);
-        setSize(new java.awt.Dimension(1280, 720));
+        setSize(new java.awt.Dimension(1200, 720));
         getContentPane().setLayout(null);
 
         buttonRelatorios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -130,26 +131,31 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFinanceiroActionPerformed
+        //criação da tela de finanças
         FinantialMenu finantialMenu = new FinantialMenu();
         finantialMenu.setVisible(true);
     }//GEN-LAST:event_buttonFinanceiroActionPerformed
 
     private void buttonReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReservasActionPerformed
+        //criação da tela de agendamentos
         BookingMenu bookingMenu = new BookingMenu();
         bookingMenu.setVisible(true);
     }//GEN-LAST:event_buttonReservasActionPerformed
 
     private void buttonCheckinCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckinCheckoutActionPerformed
+        //criação da tela de checkin e checkout
         CheckinCheckoutMenu checkinCheckoutMenu = new CheckinCheckoutMenu();
         checkinCheckoutMenu.setVisible(true);
     }//GEN-LAST:event_buttonCheckinCheckoutActionPerformed
 
     private void buttonQuartosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQuartosActionPerformed
+        //criação da tela de quartos
         RoomMenu roomMenu = new RoomMenu();
         roomMenu.setVisible(true);
     }//GEN-LAST:event_buttonQuartosActionPerformed
 
     private void buttonRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRelatoriosActionPerformed
+        //criação da tela de relatório
         ReportMenu reportMenu = new ReportMenu();
         reportMenu.setVisible(true);
     }//GEN-LAST:event_buttonRelatoriosActionPerformed

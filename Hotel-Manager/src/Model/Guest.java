@@ -6,7 +6,7 @@ package Model;
  */
 public class Guest extends Person {
 
-    public Guest(float addiotionalBilling, int id, String name) {
+    public Guest(int id, String name) {
         super(id, name);
     }
 

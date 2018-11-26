@@ -5,6 +5,9 @@
  */
 package hotel.manager.View;
 
+import Control.TransferController;
+import Model.Transfer;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -13,15 +16,19 @@ import java.util.Date;
  */
 public class TransferModal extends javax.swing.JFrame {
 
-    private String tipo = "";
+    private boolean entrada = false;
 
     /**
      * Creates new form TransferModal
      */
-    public TransferModal(String tipo) {
+    public TransferModal(boolean entrada) {
         initComponents();
-        this.tipo = tipo;
-        this.typeTransferLabel.setText(tipo);
+        if (entrada) {
+            this.entrada = true;
+            this.typeTransferLabel.setText("Entrada");
+        } else {
+            this.typeTransferLabel.setText("Saída");
+        }
     }
 
     /**
@@ -35,11 +42,11 @@ public class TransferModal extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        valueTextInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        buttonSave = new javax.swing.JButton();
+        buttonCancel = new javax.swing.JButton();
+        descriptionTextInput = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         dateTransferLabel = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -50,6 +57,7 @@ public class TransferModal extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setMaximumSize(new java.awt.Dimension(400, 300));
         setMinimumSize(new java.awt.Dimension(400, 300));
+        setResizable(false);
         setSize(new java.awt.Dimension(400, 300));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -59,18 +67,29 @@ public class TransferModal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Valor:");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        valueTextInput.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        valueTextInput.setText("0");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Descrição:");
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Salvar");
+        buttonSave.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonSave.setText("Salvar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton2.setText("Cancelar");
+        buttonCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonCancel.setText("Cancelar");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        descriptionTextInput.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Data:");
@@ -98,20 +117,20 @@ public class TransferModal extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
+                            .addComponent(descriptionTextInput)
                             .addComponent(dateTransferLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                             .addComponent(typeTransferLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 36, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(buttonCancel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1))
+                                .addComponent(buttonSave))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(valueTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -122,11 +141,11 @@ public class TransferModal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valueTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(descriptionTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -137,8 +156,8 @@ public class TransferModal extends javax.swing.JFrame {
                     .addComponent(typeTransferLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(buttonSave)
+                    .addComponent(buttonCancel))
                 .addContainerGap())
         );
 
@@ -146,18 +165,39 @@ public class TransferModal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        TransferController transferController = new TransferController();
+        if (Integer.parseInt(valueTextInput.getText()) > 0) {
+            ArrayList<Transfer> transfers = transferController.getAllTransfers();
+            if (transfers.size() > 0) {
+                Transfer lastTransfer = transfers.get(transfers.size() - 1);
+                int newTransferCode = lastTransfer.getCode() + 1;
+                Transfer transfer = new Transfer(newTransferCode, Float.parseFloat(this.valueTextInput.getText()), descriptionTextInput.getText(), new Date().toString(), entrada);
+                transferController.createNewTransfer(transfer);
+            } else {
+                Transfer transfer = new Transfer(1, Float.parseFloat(this.valueTextInput.getText()), descriptionTextInput.getText(), new Date().toString(), entrada);
+                transferController.createNewTransfer(transfer);
+            }
+        }
+        this.dispose();
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCancel;
+    private javax.swing.JButton buttonSave;
     private javax.swing.JLabel dateTransferLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JTextField descriptionTextInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel typeTransferLabel;
+    private javax.swing.JTextField valueTextInput;
     // End of variables declaration//GEN-END:variables
 }
