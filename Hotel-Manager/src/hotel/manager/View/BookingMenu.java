@@ -7,6 +7,8 @@ package hotel.manager.View;
 
 import Model.Booking;
 import Model.Room;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

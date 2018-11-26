@@ -16,7 +16,7 @@ public class ModalGuest extends javax.swing.JFrame {
     /**
      * Creates new form ModalRegisterGuest
      */
-    private Guest guest = new Guest(0, "");
+    //private Guest guest = new Guest(0, "");
     
     public ModalGuest() {
         initComponents();
@@ -25,7 +25,7 @@ public class ModalGuest extends javax.swing.JFrame {
     
     public ModalGuest(Guest guest) {
         initComponents();
-        this.guest = guest;
+     //  this.guest = guest;
         this.nameTextInput.setText(String.valueOf(guest.getName()));
         this.codeTextInput.setText(String.valueOf(guest.getId()));
         this.buttonSave.setEnabled(false);

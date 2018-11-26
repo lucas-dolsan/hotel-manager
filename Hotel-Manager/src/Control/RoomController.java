@@ -46,14 +46,14 @@ public class RoomController {
     }
 
     public String createNewRoom(Room room) {
-        readRoomsFromFile();
         try {
             if (roomExistsInFile(room.getNumber())) {
                 String message = "Já existe um quarto com esse número cadastrado!";
                 System.out.println(message);
                 return message;
             }
-
+            this.rooms.clear();
+            readRoomsFromFile();
             this.rooms.add(room);
 
             if (this.saveRoomsToFile()) {

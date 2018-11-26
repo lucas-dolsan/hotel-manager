@@ -6,9 +6,13 @@
 package hotel.manager.View;
 
 import Control.BookingController;
+import Control.GuestController;
 import Control.RoomController;
 import Model.Booking;
+import Model.Guest;
 import Model.Room;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -55,6 +59,11 @@ public class Menu extends javax.swing.JFrame {
         buttonRelatorios.setMaximumSize(new java.awt.Dimension(150, 150));
         buttonRelatorios.setMinimumSize(new java.awt.Dimension(150, 150));
         buttonRelatorios.setPreferredSize(new java.awt.Dimension(150, 150));
+        buttonRelatorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonRelatoriosMouseClicked(evt);
+            }
+        });
         buttonRelatorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRelatoriosActionPerformed(evt);
@@ -159,6 +168,22 @@ public class Menu extends javax.swing.JFrame {
         ReportMenu reportMenu = new ReportMenu();
         reportMenu.setVisible(true);
     }//GEN-LAST:event_buttonRelatoriosActionPerformed
+
+    private void buttonRelatoriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRelatoriosMouseClicked
+        Guest g1 = new Guest(0302200, "André ta certo");
+
+        Room r = new Room(13022017, 10, false, false, false, false);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String dateString = dateFormat.format(date).toString();
+        System.out.println(dateString);
+        Booking b = new Booking(123456, r, false, dateString, dateString, 450);
+        new RoomController().createNewRoom(r);
+        new GuestController().createNewGuest(g1);
+        b.addGuest(g1);
+        new BookingController().createNewBooking(b);
+    }//GEN-LAST:event_buttonRelatoriosMouseClicked
 
     /**
      * @param args the command line arguments

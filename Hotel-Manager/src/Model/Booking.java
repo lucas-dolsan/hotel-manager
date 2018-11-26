@@ -11,14 +11,14 @@ public class Booking {
 
     private int code;
     private boolean archived;
-    private Date checkinDate;
-    private Date checkoutDate;
+    private String checkinDate;
+    private String checkoutDate;
     private float cost;
     private float additionalCost;
     private Room room;
     ArrayList<Guest> guests = new ArrayList();
 
-    public Booking(int code, Room room, boolean archived, Date checkinDate, Date checkoutDate, float cost) {
+    public Booking(int code, Room room, boolean archived, String checkinDate, String checkoutDate, float cost) {
         this.code = code;
         this.room = room;
         this.archived = archived;
@@ -62,19 +62,19 @@ public class Booking {
         this.room = room;
     }
 
-    public Date getCheckinDate() {
+    public String getCheckinDate() {
         return checkinDate;
     }
 
-    public void setCheckinDate(Date checkinDate) {
+    public void setCheckinDate(String checkinDate) {
         this.checkinDate = checkinDate;
     }
 
-    public Date getCheckoutDate() {
+    public String getCheckoutDate() {
         return checkoutDate;
     }
 
-    public void setCheckoutDate(Date checkoutDate) {
+    public void setCheckoutDate(String checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 
@@ -100,14 +100,11 @@ public class Booking {
 
     public String toFileString() {
         String line = this.code + ";"
+                + this.archived + ";"
                 + this.room.getNumber() + ";"
                 + this.checkinDate + ";"
                 + this.checkoutDate + ";"
                 + this.cost + ";";
-        line = line + this.guests.size() + ";";
-        for (Guest guest : this.guests) {
-            line = line + guest.getId() + ";";
-        }
         return line;
     }
 

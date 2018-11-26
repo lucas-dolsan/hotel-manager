@@ -6,6 +6,7 @@
 package Control;
 
 import Model.Booking;
+import Model.BookingGuest;
 import Model.Guest;
 import Model.Room;
 import java.io.BufferedReader;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,7 +28,10 @@ import java.util.Iterator;
 public class BookingController {
 
     public static final String FILE_PATH = "d:/Hotel-manager-files/bookings.txt";
+    public static final String GUESTLIST_FILE_PATH = "d:/Hotel-manager-files/BookingGuest.txt";
     ArrayList<Booking> bookings = new ArrayList<>();
+    ArrayList<Guest> guests = new ArrayList<>();
+    ArrayList<BookingGuest> bookingGuests = new ArrayList<>();
 
     public Booking findBookingByCode(int code) {
         //readRoomsFromFile();
@@ -40,7 +46,6 @@ public class BookingController {
     }
 
     public boolean bookingExistsInFile(int code) {
-        readBookingsFromFile();
         for (Booking booking : this.bookings) {
             if (booking.getCode() == code) {
                 return true;
@@ -80,9 +85,10 @@ public class BookingController {
         try {
             FileWriter fileWriter = new FileWriter(new File(FILE_PATH));
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
             for (Booking booking : this.bookings) {
                 bufferedWriter.write(booking.toFileString());
+                System.out.println(booking.toString());
+                saveGuestsToBooking(booking);
                 bufferedWriter.newLine();
             }
 
@@ -97,6 +103,67 @@ public class BookingController {
         }
     }
 
+    private void saveGuestsToBooking(Booking booking) {
+        this.bookingGuests.clear();
+        readBookingGuestFromFile();
+        try {
+            FileWriter fileWriter = new FileWriter(new File(GUESTLIST_FILE_PATH));
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            for (BookingGuest bg : this.bookingGuests) {
+                bufferedWriter.write(bg.toFileString());
+                bufferedWriter.newLine();
+            }
+
+            for (Guest guest : booking.getGuests()) {
+                BookingGuest bookingGuest = new BookingGuest(guest, booking);
+                System.out.println(bookingGuest.toFileString());
+                bufferedWriter.write(bookingGuest.toFileString());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+            fileWriter.close();
+            this.bookingGuests.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private boolean readBookingGuestFromFile() {
+        File file = new File(GUESTLIST_FILE_PATH);
+        try {
+            if (file.exists()) {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                String line = bufferedReader.readLine();
+
+                while (line != null) {
+
+                    String[] stringifiedBookingGuest = line.split(";");
+                    BookingGuest bookingGuest = new BookingGuest();
+
+                    Booking booking = findBookingByCode(Integer.parseInt(stringifiedBookingGuest[1]));
+                    Guest guest = new GuestController().findGuestByID(Integer.parseInt(stringifiedBookingGuest[0]));
+                    if(guest.getId() == 0){
+                        return false;
+                    }
+                    bookingGuest.setBooking(booking);
+                    bookingGuest.setGuest(guest);
+
+                    this.bookingGuests.add(bookingGuest);
+
+                    line = bufferedReader.readLine();
+                }
+                bufferedReader.close();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
     private boolean readBookingsFromFile() {
         File file = new File(FILE_PATH);
         try {
@@ -109,19 +176,17 @@ public class BookingController {
                     String[] stringifiedBooking = line.split(";");
                     Booking booking = new Booking();
 
-                    booking.setCode(Integer.parseInt(stringifiedBooking[0]));
-                    booking.setRoom(new RoomController().findRoomByNumber(Integer.parseInt(stringifiedBooking[1])));
-                    booking.setCheckinDate(new Date(stringifiedBooking[2]));
-                    booking.setCheckoutDate(new Date(stringifiedBooking[3]));
-                    booking.setCost(Float.parseFloat(stringifiedBooking[4]));
-                    int qtdAutores = Integer.parseInt(stringifiedBooking[5]);
+                    System.out.println(stringifiedBooking);
 
-                    for (int i = 6; i < (6 + qtdAutores); i++) {
-                        int codAutor = Integer.parseInt(stringifiedBooking[i]);
-                        Guest currentGuest = new GuestController().findGuestByID(codAutor);
-                        booking.addGuest(currentGuest);
-                    }
+                    booking.setCode(Integer.parseInt(stringifiedBooking[0]));
+                    booking.setArchived(Boolean.parseBoolean(stringifiedBooking[1]));
+                    booking.setRoom(new RoomController().findRoomByNumber(Integer.parseInt(stringifiedBooking[2])));
+                    booking.setCheckinDate(stringifiedBooking[3]);
+                    booking.setCheckoutDate(stringifiedBooking[4]);
+                    booking.setCost(Float.parseFloat(stringifiedBooking[5]));
+
                     this.bookings.add(booking);
+
                     line = bufferedReader.readLine();
                 }
                 bufferedReader.close();

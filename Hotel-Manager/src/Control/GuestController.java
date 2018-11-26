@@ -18,8 +18,7 @@ public class GuestController {
 
     public Guest findGuestByID(int id) {
         readGuestsFromFile();
-        Guest guest = null;
-
+        Guest guest = new Guest(0, "Guest Não Encontrado");
         for (Guest guestIteration : this.guests) {
             if (guestIteration.getId() == id) {
                 return guestIteration;
@@ -39,14 +38,14 @@ public class GuestController {
     }
 
     public String createNewGuest(Guest guest) {
-        readGuestsFromFile();
         try {
             if (guestExistsInFile(guest.getId())) {
                 String message = "Já existe um hóspede com esse número cadastrado!";
                 System.out.println(message);
                 return message;
             }
-
+            this.guests.clear();
+            readGuestsFromFile();
             this.guests.add(guest);
 
             if (this.saveGuestsToFile()) {
@@ -95,10 +94,14 @@ public class GuestController {
 
                 while (line != null) {
                     String[] stringifiedGuest = line.split(";");
-                    Guest guest = null;
-                    guest.setId(Integer.parseInt(stringifiedGuest[0]));
-                    guest.setName(stringifiedGuest[1]);
+
+                    int id = Integer.parseInt(stringifiedGuest[0]);
+                    String name = stringifiedGuest[1];
+
+                    Guest guest = new Guest(id, name);
+
                     this.guests.add(guest);
+
                     line = bufferedReader.readLine();
                 }
 

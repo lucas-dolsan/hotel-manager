@@ -215,9 +215,9 @@ public class ModalBooking extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonRegisterGuestActionPerformed
 
     private void guestsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guestsTableMouseClicked
-        Guest guest = new Guest((int) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 0), (String) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 1));
-        ModalGuest modalGuest = new ModalGuest(guest);
-        modalGuest.setVisible(true);
+        //  Guest guest = new Guest((int) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 0), (String) guestsTable.getValueAt(guestsTable.rowAtPoint(evt.getPoint()), 1));
+        // modalGuest = new ModalGuest(guest);
+        //modalGuest.setVisible(true);
     }//GEN-LAST:event_guestsTableMouseClicked
 
 
