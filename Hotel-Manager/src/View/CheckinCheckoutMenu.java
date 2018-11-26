@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hotel.manager.View;
+package View;
 
 import Control.BookingController;
 import Model.Booking;
@@ -47,7 +47,6 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar checkin e checkout");
-        setMaximumSize(new java.awt.Dimension(900, 720));
         setMinimumSize(new java.awt.Dimension(900, 720));
         setResizable(false);
         setSize(new java.awt.Dimension(900, 720));

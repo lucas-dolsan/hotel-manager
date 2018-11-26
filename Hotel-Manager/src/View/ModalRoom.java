@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hotel.manager.View;
+package View;
 
 import Control.RoomController;
 import Model.Room;
@@ -69,7 +69,6 @@ public class ModalRoom extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar quarto");
         setAlwaysOnTop(true);
-        setMaximumSize(new java.awt.Dimension(600, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(600, 600));
 

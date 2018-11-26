@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hotel.manager.View;
+package View;
 
 import Control.BookingController;
 import Control.RoomController;
@@ -57,7 +57,6 @@ public class FinantialMenu extends javax.swing.JFrame {
         setTitle("Financeiro");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(800, 700));
         setMinimumSize(new java.awt.Dimension(800, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 700));
