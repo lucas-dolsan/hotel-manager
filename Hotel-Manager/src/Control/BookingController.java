@@ -54,7 +54,7 @@ public class BookingController {
         readBookingsFromFile();
         try {
             if (bookingExistsInFile(booking.getCode())) {
-                String message = "Já existe um quarto com esse número cadastrado!";
+                String message = "Já existe um agendamento com esse número cadastrado!";
                 System.out.println(message);
                 return message;
             }

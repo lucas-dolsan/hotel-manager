@@ -149,9 +149,12 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_bookingTableMouseClicked
 
     private void buttonCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckoutActionPerformed
-        //Aqui o sistema vai abrir o modal de checkout
-        ModalCheckout modalCheckout = new ModalCheckout();
-        modalCheckout.setVisible(true);
+        BookingController bookingController = new BookingController();
+        if (Integer.parseInt(this.bookingTextInput.getText()) >= 0) {
+            Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingTextInput.getText()));
+            ModalCheckout modalCheckout = new ModalCheckout(booking);
+            modalCheckout.setVisible(true);
+        }
     }//GEN-LAST:event_buttonCheckoutActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -162,7 +165,7 @@ public class CheckinCheckoutMenu extends javax.swing.JFrame {
         BookingController bookingController = new BookingController();
         if (Integer.parseInt(this.bookingTextInput.getText()) >= 0) {
             Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingTextInput.getText()));
-            if (booking.getCheckinDate() == null) {
+            if (booking.getCheckinDate().equals("null")) {
                 booking.setCheckinDate(new Date().toString());
                 bookingController.editBooking(booking);
             }

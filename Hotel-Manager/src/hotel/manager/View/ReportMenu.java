@@ -5,6 +5,10 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
+import Model.Booking;
+import java.util.ArrayList;
+
 /**
  *
  * @author 09046138950
@@ -16,14 +20,9 @@ public class ReportMenu extends javax.swing.JFrame {
      */
     public ReportMenu() {
         initComponents();
-        
-        //set em todos os indicadores da tela
-        this.allBookingsLabel.setText("");
-        this.allCheckinsLabel.setText("");
-        this.allCheckoutsLabel.setText("");
-        this.finishedBookingsLabel.setText("");
-        this.onGoingBookingsLabel.setText("");
-        this.pendingChecktousLabel.setText("");
+
+        //métdo para set em todos os indicadores da tela
+        loadValues();
     }
 
     /**
@@ -165,7 +164,42 @@ public class ReportMenu extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    private void loadValues() {
+        BookingController bookingController = new BookingController();
+        
+        ArrayList<Booking> bookings = bookingController.getAllBookings();
+        
+        int countCheckoutsPending = 0;
+        int countAllCheckins = 0;
+        int countAllCheckouts = 0;
+        int countArchived = 0;
+        int countNoArchived = 0;
+        
+        for (Booking booking : bookings) {
+            if (booking.isArchived()) {
+                countArchived++;
+            } else {
+                countNoArchived++;
+            }
+            if (!booking.getCheckinDate().equals("null")) {
+                countAllCheckins++;
+            }
+            
+            if (!booking.getCheckoutDate().equals("null")) {
+                countAllCheckouts++;
+            }
+            
+            if (!(booking.getCheckinDate().equals("null")) && (booking.getCheckoutDate().equals("null"))) {
+                countCheckoutsPending++;
+            }
+        }
+        this.allCheckinsLabel.setText(String.valueOf(countAllCheckins));
+        this.allCheckoutsLabel.setText(String.valueOf(countAllCheckouts));
+        this.allBookingsLabel.setText(String.valueOf(bookings.size()));
+        this.finishedBookingsLabel.setText(String.valueOf(countArchived));
+        this.onGoingBookingsLabel.setText(String.valueOf(countNoArchived));
+        this.pendingChecktousLabel.setText(String.valueOf(countCheckoutsPending));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel allBookingsLabel;

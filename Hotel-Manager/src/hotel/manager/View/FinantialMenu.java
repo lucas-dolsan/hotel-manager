@@ -5,8 +5,10 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
 import Control.RoomController;
 import Control.TransferController;
+import Model.Booking;
 import Model.Room;
 import Model.Transfer;
 import java.util.ArrayList;
@@ -234,7 +236,8 @@ public class FinantialMenu extends javax.swing.JFrame {
 
         //Set no valor do indicador
         this.fieldSaldoAtual.setText(String.valueOf(transferController.getTotalTransferEntries()));
-
+        this.fieldAReceber.setText(String.valueOf(loadAReceber()));
+        
         //Limpeza das linhas da tabela
         while (tabela.getRowCount() > 0) {
             tabela.removeRow(0);
@@ -250,6 +253,20 @@ public class FinantialMenu extends javax.swing.JFrame {
                 transfer.getCode(), tipo, transfer.getValue(), transfer.getDescription(), transfer.getDate()
             });
         }
+    }
+
+    private float loadAReceber() {
+        BookingController bookingController = new BookingController();
+        float total = 0;
+
+        ArrayList<Booking> bookings = bookingController.getAllBookings();
+        for (Booking booking : bookings) {
+            if (!booking.isArchived()) {
+                total = total + booking.getCost() + booking.getAdditionalCost();
+            }
+        }
+
+        return total;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fieldAReceber;

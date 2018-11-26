@@ -5,6 +5,13 @@
  */
 package hotel.manager.View;
 
+import Control.BookingController;
+import Control.TransferController;
+import Model.Booking;
+import Model.Transfer;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author Schork
@@ -16,6 +23,17 @@ public class ModalCheckout extends javax.swing.JFrame {
      */
     public ModalCheckout() {
         initComponents();
+    }
+
+    public ModalCheckout(Booking booking) {
+        initComponents();
+        this.bookingCodeTextInput.setText(String.valueOf(booking.getCode()));
+        this.additionalCostTextInput.setText(String.valueOf(booking.getAdditionalCost()));
+        this.costTextInput.setText(String.valueOf(booking.getCost()));
+        this.checkinDateTextInput.setText(String.valueOf(booking.getCheckinDate()));
+
+        float totalCost = booking.getAdditionalCost() + booking.getCost();
+        this.totalCostTextInput.setText(String.valueOf(totalCost));
     }
 
     /**
@@ -135,28 +153,21 @@ public class ModalCheckout extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(totalCostTextInput))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(checkinDateTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel2))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(costTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(additionalCostTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(bookingCodeTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(additionalCostTextInput)
+                            .addComponent(checkinDateTextInput, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(costTextInput)
+                            .addComponent(bookingCodeTextInput)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +220,29 @@ public class ModalCheckout extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonCancelActionPerformed
 
     private void buttonCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCheckoutActionPerformed
-        // TODO add your handling code here:
+        BookingController bookingController = new BookingController();
+        TransferController transferController = new TransferController();
+
+        if (Integer.parseInt(this.bookingCodeTextInput.getText()) >= 0) {
+            Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingCodeTextInput.getText()));
+            if (!booking.isArchived()) {
+                booking.setCheckoutDate(new Date().toString());
+                booking.setArchived(true);
+                bookingController.editBooking(booking);
+
+                ArrayList<Transfer> transfers = transferController.getAllTransfers();
+                if (transfers.size() > 0) {
+                    Transfer lastTransfer = transfers.get(transfers.size() - 1);
+                    int newTransferCode = lastTransfer.getCode() + 1;
+                    Transfer transfer = new Transfer(newTransferCode, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
+                    transferController.createNewTransfer(transfer);
+                } else {
+                    Transfer transfer = new Transfer(1, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
+                    transferController.createNewTransfer(transfer);
+                }
+            }
+        }
+        this.dispose();
     }//GEN-LAST:event_buttonCheckoutActionPerformed
 
 
