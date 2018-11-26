@@ -175,14 +175,13 @@ public class BookingController {
                     String[] stringifiedBooking = line.split(";");
                     Booking booking = new Booking();
 
-                    System.out.println(stringifiedBooking);
-
                     booking.setCode(Integer.parseInt(stringifiedBooking[0]));
                     booking.setArchived(Boolean.parseBoolean(stringifiedBooking[1]));
                     booking.setRoom(new RoomController().findRoomByNumber(Integer.parseInt(stringifiedBooking[2])));
                     booking.setCheckinDate(stringifiedBooking[3]);
                     booking.setCheckoutDate(stringifiedBooking[4]);
                     booking.setCost(Float.parseFloat(stringifiedBooking[5]));
+                    booking.setAdditionalCost(Float.parseFloat(stringifiedBooking[6]));
 
                     this.bookings.add(booking);
 

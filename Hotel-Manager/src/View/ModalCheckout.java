@@ -224,20 +224,22 @@ public class ModalCheckout extends javax.swing.JFrame {
 
         if (Integer.parseInt(this.bookingCodeTextInput.getText()) >= 0) {
             Booking booking = bookingController.findBookingByCode(Integer.parseInt(this.bookingCodeTextInput.getText()));
-            if (!booking.isArchived()) {
-                booking.setCheckoutDate(new Date().toString());
-                booking.setArchived(true);
-                bookingController.editBooking(booking, booking.getCode());
+            if (!booking.getCheckinDate().equals("null")) {
+                if (!booking.isArchived()) {
+                    booking.setCheckoutDate(new Date().toString());
+                    booking.setArchived(true);
+                    bookingController.editBooking(booking, booking.getCode());
 
-                ArrayList<Transfer> transfers = transferController.getAllTransfers();
-                if (transfers.size() > 0) {
-                    Transfer lastTransfer = transfers.get(transfers.size() - 1);
-                    int newTransferCode = lastTransfer.getCode() + 1;
-                    Transfer transfer = new Transfer(newTransferCode, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
-                    transferController.createNewTransfer(transfer);
-                } else {
-                    Transfer transfer = new Transfer(1, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
-                    transferController.createNewTransfer(transfer);
+                    ArrayList<Transfer> transfers = transferController.getAllTransfers();
+                    if (transfers.size() > 0) {
+                        Transfer lastTransfer = transfers.get(transfers.size() - 1);
+                        int newTransferCode = lastTransfer.getCode() + 1;
+                        Transfer transfer = new Transfer(newTransferCode, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
+                        transferController.createNewTransfer(transfer);
+                    } else {
+                        Transfer transfer = new Transfer(1, Float.parseFloat(this.totalCostTextInput.getText()), ("Entrada partindo do agendamento número: " + this.bookingCodeTextInput.getText()), new Date().toString(), true);
+                        transferController.createNewTransfer(transfer);
+                    }
                 }
             }
         }

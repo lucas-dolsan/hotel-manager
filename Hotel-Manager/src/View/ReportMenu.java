@@ -6,7 +6,11 @@
 package View;
 
 import Control.BookingController;
+import Control.GuestController;
+import Control.RoomController;
 import Model.Booking;
+import Model.Guest;
+import Model.Room;
 import java.util.ArrayList;
 
 /**
@@ -49,14 +53,16 @@ public class ReportMenu extends javax.swing.JFrame {
         allCheckinsLabel = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        totalRoomLabel = new javax.swing.JLabel();
         totalGuestLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Relatório");
         setAlwaysOnTop(true);
-        setMinimumSize(new java.awt.Dimension(700, 350));
-        setSize(new java.awt.Dimension(700, 350));
+        setMaximumSize(new java.awt.Dimension(700, 470));
+        setMinimumSize(new java.awt.Dimension(700, 470));
+        setPreferredSize(new java.awt.Dimension(700, 470));
+        setSize(new java.awt.Dimension(700, 470));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -113,7 +119,8 @@ public class ReportMenu extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Total de quartos");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        totalRoomLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        totalRoomLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         totalGuestLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         totalGuestLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -129,7 +136,7 @@ public class ReportMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalRoomLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(allBookingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -138,7 +145,8 @@ public class ReportMenu extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(totalGuestLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(allCheckoutsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -146,8 +154,7 @@ public class ReportMenu extends javax.swing.JFrame {
                         .addComponent(finishedBookingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(totalGuestLabel))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
@@ -184,10 +191,10 @@ public class ReportMenu extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalGuestLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addGap(30, 30, 30))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalGuestLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalRoomLabel))
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -195,8 +202,12 @@ public class ReportMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void loadValues() {
         BookingController bookingController = new BookingController();
+        RoomController roomController = new RoomController();
+        GuestController guestController = new GuestController();
         
+        ArrayList<Room> rooms = roomController.getAllRooms();
         ArrayList<Booking> bookings = bookingController.getAllBookings();
+        ArrayList<Guest> guests = guestController.getAllGuests();
         
         int countCheckoutsPending = 0;
         int countAllCheckins = 0;
@@ -222,6 +233,9 @@ public class ReportMenu extends javax.swing.JFrame {
                 countCheckoutsPending++;
             }
         }
+        
+        this.totalGuestLabel.setText(String.valueOf(guests.size()));
+        this.totalRoomLabel.setText(String.valueOf(rooms.size()));
         this.allCheckinsLabel.setText(String.valueOf(countAllCheckins));
         this.allCheckoutsLabel.setText(String.valueOf(countAllCheckouts));
         this.allBookingsLabel.setText(String.valueOf(bookings.size()));
@@ -236,7 +250,6 @@ public class ReportMenu extends javax.swing.JFrame {
     private javax.swing.JLabel allCheckoutsLabel;
     private javax.swing.JLabel finishedBookingsLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -248,5 +261,6 @@ public class ReportMenu extends javax.swing.JFrame {
     private javax.swing.JLabel onGoingBookingsLabel;
     private javax.swing.JLabel pendingChecktousLabel;
     private javax.swing.JLabel totalGuestLabel;
+    private javax.swing.JLabel totalRoomLabel;
     // End of variables declaration//GEN-END:variables
 }

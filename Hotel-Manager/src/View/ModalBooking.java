@@ -70,6 +70,9 @@ public class ModalBooking extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         buttonEdit = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        additionalCostTextInput = new javax.swing.JTextField();
+        buttonAddCost = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agendamento");
@@ -163,6 +166,20 @@ public class ModalBooking extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setText("Custo adicional:");
+
+        additionalCostTextInput.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        additionalCostTextInput.setText("0");
+
+        buttonAddCost.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonAddCost.setText("Adicionar custo");
+        buttonAddCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddCostActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,11 +206,17 @@ public class ModalBooking extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel4)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel3))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(guestPicker, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(additionalCostTextInput)
+                                                .addComponent(guestPicker, 0, 186, Short.MAX_VALUE))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(buttonAddGuest)))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(buttonAddGuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(buttonAddCost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel1)
@@ -226,10 +249,15 @@ public class ModalBooking extends javax.swing.JFrame {
                     .addComponent(buttonAddGuest)
                     .addComponent(guestPicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(additionalCostTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonAddCost))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -338,6 +366,18 @@ public class ModalBooking extends javax.swing.JFrame {
         bookingController.editBooking(booking, this.booking.getCode());
     }//GEN-LAST:event_buttonEditActionPerformed
 
+    private void buttonAddCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddCostActionPerformed
+        BookingController bookingController = new BookingController();
+
+        Booking booking = bookingController.findBookingByCode(this.booking.getCode());
+        System.out.println(booking);
+        float total = booking.getAdditionalCost() + Float.parseFloat(String.valueOf(this.additionalCostTextInput.getText()));
+        System.out.println(total);
+        booking.setAdditionalCost(total);
+
+        bookingController.editBooking(booking, this.booking.getCode());
+    }//GEN-LAST:event_buttonAddCostActionPerformed
+
     private void reloadPickerRooms() {
         RoomController roomController = new RoomController();
         ArrayList<Room> rooms = roomController.getAllRooms();
@@ -365,6 +405,8 @@ public class ModalBooking extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField additionalCostTextInput;
+    private javax.swing.JButton buttonAddCost;
     private javax.swing.JButton buttonAddGuest;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonEdit;
@@ -378,6 +420,7 @@ public class ModalBooking extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton radioButtonCheckinAuto;
     private javax.swing.JComboBox<String> roomPicker;

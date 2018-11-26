@@ -104,13 +104,14 @@ public class Booking {
                 + this.room.getNumber() + ";"
                 + this.checkinDate + ";"
                 + this.checkoutDate + ";"
-                + this.cost + ";";
+                + this.cost + ";"
+                + this.additionalCost + ";";
         return line;
     }
 
     @Override
     public String toString() {
-        return "Booking{" + "code=" + code + ", archived=" + archived + ", checkinDate=" + checkinDate + ", checkoutDate=" + checkoutDate + ", cost=" + cost + ", room=" + room + ", guests=" + guests + '}';
+        return "Booking{" + "code=" + code + ", archived=" + archived + ", checkinDate=" + checkinDate + ", checkoutDate=" + checkoutDate + ", cost=" + cost + ", additionalCost=" + additionalCost + ", room=" + room + ", guests=" + guests + '}';
     }
 
 }
